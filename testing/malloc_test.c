@@ -11,7 +11,7 @@ int main()
 
 	
 	heap = (int *) malloc(faults * size * sizeof(int));
-	for(i = 0; i <= size; i+=4096)
+	for(i = 0; i < size; i=i+4096)
 	{
 		heap[i] = j;	
 		j++;
