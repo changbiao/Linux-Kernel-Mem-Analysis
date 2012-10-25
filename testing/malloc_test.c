@@ -10,7 +10,7 @@ int main()
 	int * heap;
 
 	
-	heap = (int *) malloc(faults * size * sizeof(int*));
+	heap = (int *) malloc(faults * size * sizeof(int));
 	for(i = 0; i <= size; i+=4096)
 	{
 		heap[i] = j;	
