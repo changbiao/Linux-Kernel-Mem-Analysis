@@ -8,7 +8,7 @@ int list[SIZE];
 int main()
 {
 	int i;
-	for(i = 0; i < SIZE; i++)
+	for(i = 0; i < 2*SIZE; i++)
 	{
 		list[i] = i;
 	}
