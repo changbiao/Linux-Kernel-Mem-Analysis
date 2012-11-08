@@ -19,6 +19,7 @@ __attribute_used__
 __attribute__((section("__versions"))) = {
 	{ 0xf1a3d2a2, "struct_module" },
 	{ 0x25da070, "snprintf" },
+	{ 0x1b7d4074, "printk" },
 	{ 0xeaa5c7ae, "create_proc_entry" },
 	{ 0xa8c9cad6, "STUB_do_page_fault_injection" },
 	{ 0x7338aaf7, "remove_proc_entry" },
@@ -31,4 +32,4 @@ __attribute__((section(".modinfo"))) =
 "depends=";
 
 
-MODULE_INFO(srcversion, "A12CFE4F3477D74BB4E51D4");
+MODULE_INFO(srcversion, "4C4785DA40DD284C35D0FC1");

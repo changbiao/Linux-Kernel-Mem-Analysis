@@ -52,19 +52,22 @@ static int get_info(char *sys_buffer, char **my_buffer, off_t file_pos, int my_b
 {
     flag = 1;
     static char buffer[BUF_LEN];
-    int len = 0;
+    static int len = 0;
 
     unsigned int n = i;
     if(i > STORAGE)
     {
        n = STORAGE;
     }
+     
+    printk(KERN_DEBUG "nlimit = %d\n", n);
 
     int j;
-    char buffer_i[BUF_LEN_I];
     memset(buffer, '\0', BUF_LEN);
     for(j = 0; j < n; j++)
     {
+	int this_len = 0;
+	char buffer_i[BUF_LEN_I];
 	memset(buffer_i, '\0', BUF_LEN_I);
 	unsigned int record = data_store[j].record;
 	int pid_ = data_store[j].pid;
@@ -75,17 +78,19 @@ static int get_info(char *sys_buffer, char **my_buffer, off_t file_pos, int my_b
 	int bit2 = error_code_ & 0x4 >> 2;
 	int bit3 = error_code_ & 0x8 >> 3;
 	int bit4 = error_code_ & 0x10 >> 4;
-        len = len +  snprintf(buffer_i, BUF_LEN_I-1, "record: %u, pid: %d, address: %lu, bit0: %d, bit1: %d, bit2: %d, bit3: %d, bit4: %d\n", record, pid_, address_, bit0, bit1, bit2, bit3, bit4);
+        this_len = snprintf(buffer_i, BUF_LEN_I-1, "record: %u, pid: %d, address: %lu, bit0: %d, bit1: %d, bit2: %d, bit3: %d, bit4: %d\n", record, pid_, address_, bit0, bit1, bit2, bit3, bit4);
 	strncat(buffer, buffer_i, BUF_LEN_I-1);
+	printk(KERN_DEBUG "this_len = %d\n", this_len);
+	len = len+this_len;
     }  
 
     *my_buffer = buffer;
 
+    flag = 0;
     if(file_pos > 0)
     {
         return 0;
     }
-    flag = 0;
     return len;
 }
 
