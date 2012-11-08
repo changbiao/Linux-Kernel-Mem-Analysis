@@ -37,7 +37,6 @@ void do_page_fault_injection(unsigned long address, struct task_struct *tsk, uns
 	{
 		return;
 	}
-	flag = 1;
 	int pos = i % STORAGE;
 	struct my_mem_info mi;
 	mi.record = i;
@@ -46,7 +45,6 @@ void do_page_fault_injection(unsigned long address, struct task_struct *tsk, uns
 	mi.error_code = error_code;
 	data_store[pos] = mi;
 	i++;
-	flag = 0;
 }
 
 
@@ -56,7 +54,8 @@ void do_page_fault_injection(unsigned long address, struct task_struct *tsk, uns
 
 static int get_info(char *sys_buffer, char **my_buffer, off_t file_pos, int my_buffer_length)
 {
-    STUB_do_page_fault_injection = NULL;
+    flag = 1;
+//    STUB_do_page_fault_injection = NULL;
     static char buffer[BUF_LEN];
     int len = 0;
 
@@ -98,7 +97,8 @@ static int get_info(char *sys_buffer, char **my_buffer, off_t file_pos, int my_b
     {
         return 0;
     }
-    STUB_do_page_fault_injection=&(do_page_fault_injection);
+//    STUB_do_page_fault_injection=&(do_page_fault_injection);
+    flag = 0;
     return len;
 }
 
