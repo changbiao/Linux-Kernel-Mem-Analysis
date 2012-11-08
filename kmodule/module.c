@@ -75,8 +75,8 @@ static int get_info(char *sys_buffer, char **my_buffer, off_t file_pos, int my_b
 	int bit2 = error_code_ & 0x4 >> 2;
 	int bit3 = error_code_ & 0x8 >> 3;
 	int bit4 = error_code_ & 0x10 >> 4;
-        len = len +  snprintf(buffer_i, BUF_LEN_I, "record: %u, pid: %d, address: %lu, bit0: %d, bit1: %d, bit2: %d, bit3: %d, bit4: %d\n", record, pid_, address_, bit0, bit1, bit2, bit3, bit4);
-	strncat(buffer, buffer_i, BUF_LEN_I);
+        len = len +  snprintf(buffer_i, BUF_LEN_I-1, "record: %u, pid: %d, address: %lu, bit0: %d, bit1: %d, bit2: %d, bit3: %d, bit4: %d\n", record, pid_, address_, bit0, bit1, bit2, bit3, bit4);
+	strncat(buffer, buffer_i, BUF_LEN_I-1);
     }  
 
     *my_buffer = buffer;
