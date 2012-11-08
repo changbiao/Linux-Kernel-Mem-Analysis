@@ -5,7 +5,7 @@
 #include <linux/sched.h>
 #include <linux/linkage.h>
 
-#define STORAGE 2
+#define STORAGE 1024
 #define BUF_LEN 1024
 #define BUF_LEN_I 256
 
@@ -28,10 +28,16 @@ extern void (*STUB_do_page_fault_injection)(unsigned long, struct task_struct *,
 void do_page_fault_injection(unsigned long address, struct task_struct *tsk, unsigned long error_code);
 
 unsigned int i = 0;
+int flag = 0;
 struct my_mem_info data_store[STORAGE];
 
 void do_page_fault_injection(unsigned long address, struct task_struct *tsk, unsigned long error_code)
 {
+	if(flag)
+	{
+		return;
+	}
+	flag = 1;
 	int pos = i % STORAGE;
 	struct my_mem_info mi;
 	mi.record = i;
@@ -40,6 +46,7 @@ void do_page_fault_injection(unsigned long address, struct task_struct *tsk, uns
 	mi.error_code = error_code;
 	data_store[pos] = mi;
 	i++;
+	flag = 0;
 }
 
 
@@ -60,9 +67,12 @@ static int get_info(char *sys_buffer, char **my_buffer, off_t file_pos, int my_b
     }
 
     int j;
+    char buffer_i[BUF_LEN_I];
+//    memset(buffer, '\0', BUF_LEN);
     for(j = 0; j < n; j++)
     {
-	char buffer_i[BUF_LEN_I-1];
+	
+//	memset(buffer_i, '\0', BUF_LEN_I);
 	unsigned int record = data_store[j].record;
 	int pid_ = data_store[j].pid;
 	unsigned long address_ = data_store[j].address;
@@ -74,6 +84,12 @@ static int get_info(char *sys_buffer, char **my_buffer, off_t file_pos, int my_b
 	int bit4 = error_code_ & 0x10 >> 4;
         len = len +  snprintf(buffer_i, BUF_LEN_I-1, "record: %u, pid: %d, address: %lu, bit0: %d, bit1: %d, bit2: %d, bit3: %d, bit4: %d\n", record, pid_, address_, bit0, bit1, bit2, bit3, bit4);
 	strncat(buffer, buffer_i, BUF_LEN_I-1);
+//	int k;
+//	for(k = 0; k < BUF_LEN_I-1; k++)
+//	{
+//		buffer[len+k] = buffer_i[k];
+//	}
+//	buffer[len+BUF_LEN_I] = '\0';
     }  
 
     *my_buffer = buffer;
