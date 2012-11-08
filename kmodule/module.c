@@ -28,7 +28,7 @@ extern void (*STUB_do_page_fault_injection)(unsigned long, struct task_struct *,
 void do_page_fault_injection(unsigned long address, struct task_struct *tsk, unsigned long error_code);
 
 unsigned int i = 0;
-int flag = 0;
+static int flag = 0;
 struct my_mem_info data_store[STORAGE];
 
 void do_page_fault_injection(unsigned long address, struct task_struct *tsk, unsigned long error_code)
