@@ -6,8 +6,8 @@
 #include <linux/linkage.h>
 
 #define STORAGE 1024
-#define BUF_LEN 262144
 #define BUF_LEN_I 256
+#define BUF_LEN (1024*256)
 
 /* Name of the proc file */
 static char MODNAME[] = "mem_hurst";
@@ -37,6 +37,12 @@ void do_page_fault_injection(unsigned long address, struct task_struct *tsk, uns
 	{
 		return;
 	}
+	int bit2 = error_code & 0x4 >> 2;
+	if(!bit2)
+	{
+		return;
+	}
+	
 	int pos = i % STORAGE;
 	struct my_mem_info mi;
 	mi.record = i;
@@ -45,26 +51,36 @@ void do_page_fault_injection(unsigned long address, struct task_struct *tsk, uns
 	mi.error_code = error_code;
 	data_store[pos] = mi;
 	i++;
+
 }
 
-
+static int iteration = 0;
 static int get_info(char *sys_buffer, char **my_buffer, off_t file_pos, int my_buffer_length)
 {
     flag = 1;
     static char buffer[BUF_LEN];
-    static int len = 0;
+    static int len;
+    len = 0;
+    int start = (iteration)*10;
+    int finish =  (iteration+1)*10;
+
+    printk(KERN_DEBUG "found offset to be  %d\n", file_pos);
+    printk(KERN_DEBUG "found initial len to be  %d\n", len);
 
     unsigned int n = i;
     if(i > STORAGE)
     {
        n = STORAGE;
     }
+    if(finish > n)
+    {
+	finish = n;
+    }
      
-    printk(KERN_DEBUG "nlimit = %d\n", n);
 
     int j;
     memset(buffer, '\0', BUF_LEN);
-    for(j = 0; j < n; j++)
+    for(j = start; j < finish; j++)
     {
 	int this_len = 0;
 	char buffer_i[BUF_LEN_I];
@@ -78,19 +94,24 @@ static int get_info(char *sys_buffer, char **my_buffer, off_t file_pos, int my_b
 	int bit2 = error_code_ & 0x4 >> 2;
 	int bit3 = error_code_ & 0x8 >> 3;
 	int bit4 = error_code_ & 0x10 >> 4;
-        this_len = snprintf(buffer_i, BUF_LEN_I-1, "record: %u, pid: %d, address: %lu, bit0: %d, bit1: %d, bit2: %d, bit3: %d, bit4: %d\n", record, pid_, address_, bit0, bit1, bit2, bit3, bit4);
-	strncat(buffer, buffer_i, BUF_LEN_I-1);
-	printk(KERN_DEBUG "this_len = %d\n", this_len);
+        this_len = snprintf(buffer_i, BUF_LEN_I, "record: %u, pid: %d, address: %lu, bit0: %d, bit1: %d, bit2: %d, bit3: %d, bit4: %d\n", record, pid_, address_, bit0, bit1, bit2, bit3, bit4);
+	strncat(buffer, buffer_i, BUF_LEN_I);
 	len = len+this_len;
     }  
+
+    printk(KERN_DEBUG "printing  %d to %d\n", start, finish);
+    printk(KERN_DEBUG "found len to be  %d\n", len);
 
     *my_buffer = buffer;
 
     flag = 0;
-    if(file_pos > 0)
+    if(finish >= STORAGE || finish >= n)
     {
+	len = 0;
+	iteration = 0;
         return 0;
     }
+    iteration = iteration + 1;
     return len;
 }
 
