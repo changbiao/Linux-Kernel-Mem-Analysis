@@ -38,7 +38,7 @@ void do_page_fault_injection(unsigned long address, struct task_struct *tsk, uns
 		return;
 	}
 
-	if((error_code & (1<<2)) == 0x4)
+	if((error_code & (1<<2)) != 0x4)
 	{
 		return;
 	}
