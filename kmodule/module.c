@@ -107,7 +107,6 @@ static int get_info(char *sys_buffer, char **my_buffer, off_t file_pos, int my_b
     flag = 0;
     if(finish >= STORAGE || finish >= n)
     {
-	len = 0;
 	iteration = 0;
         return 0;
     }
