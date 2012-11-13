@@ -2,13 +2,14 @@
 #include <stdlib.h>
 
 #define SIZE 4096
+#define MULTI 1024
 
-int list[2*SIZE];
+int list[SIZE];
 
 int main()
 {
 	int i;
-	for(i = 0; i < 2*SIZE; i++)
+	for(i = 0; i < MULTI*SIZE; i++)
 	{
 		list[i] = i;
 	}
