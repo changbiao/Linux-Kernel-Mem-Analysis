@@ -3,7 +3,7 @@
 
 #define SIZE 4096
 
-int list[SIZE];
+int list[2*SIZE];
 
 int main()
 {
