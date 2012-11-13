@@ -37,8 +37,8 @@ void do_page_fault_injection(unsigned long address, struct task_struct *tsk, uns
 	{
 		return;
 	}
-	int bit2 = error_code & 0x4 >> 2;
-	if(!bit2)
+
+	if((error_code & (1<<2)) == 0x4)
 	{
 		return;
 	}
@@ -89,11 +89,34 @@ static int get_info(char *sys_buffer, char **my_buffer, off_t file_pos, int my_b
 	int pid_ = data_store[j].pid;
 	unsigned long address_ = data_store[j].address;
 	unsigned long error_code_ = data_store[j].error_code;
-	int bit0 = error_code_ & 0x1;
-	int bit1 = error_code_ & 0x2 >> 1;
-	int bit2 = error_code_ & 0x4 >> 2;
-	int bit3 = error_code_ & 0x8 >> 3;
-	int bit4 = error_code_ & 0x10 >> 4;
+	int bit0 = 0;
+	int bit1 = 0;
+	int bit2 = 0;
+	int bit3 = 0;
+	int bit4 = 0;
+
+
+	if(error_code_ & (1<<0))
+	{
+		bit0 = 1;
+	}
+	if(error_code_ & (1<<1))
+	{
+		bit1 = 1;
+	}
+	if(error_code_ & (1<<2))
+	{
+		bit2 = 1;
+	}
+	if(error_code_ & (1<<3))
+	{
+		bit3 = 1;
+	}
+	if(error_code_ & (1<<4))
+	{
+		bit4 = 1;
+	}
+
         this_len = snprintf(buffer_i, BUF_LEN_I, "record: %u, pid: %d, address: %lu, bit0: %d, bit1: %d, bit2: %d, bit3: %d, bit4: %d\n", record, pid_, address_, bit0, bit1, bit2, bit3, bit4);
 	strncat(buffer, buffer_i, BUF_LEN_I);
 	len = len+this_len;
