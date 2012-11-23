@@ -4,6 +4,7 @@
 #include <linux/proc_fs.h>
 #include <linux/sched.h>
 #include <linux/linkage.h>
+#include <linux/pagemap.h>
 
 #define STORAGE 1024
 #define BUF_LEN_I 256
@@ -116,6 +117,21 @@ static int get_info(char *sys_buffer, char **my_buffer, off_t file_pos, int my_b
 	{
 		bit4 = 1;
 	}
+
+	pgd_t *pgd;
+	pud_t *pud;
+	pmd_t *pmd;
+	pte_t *pte;
+
+	pgd = pgd_index(address_);
+	pud = pud_offset(pgd, address_);
+	pmd = pmd_offset(pud, address_);
+//	pte = pte_offset_kernel(pmd, address_);
+//
+//	unsigned long pgd = pgd_index(address_);
+//	unsigned long pud = pud_offset(&pgd, address_);
+//	unsigned long pmd = pmd_offset(&pud, address_);
+//	unsigned long pte = pte_offset_kernel(&pmd, address_);
 
         this_len = snprintf(buffer_i, BUF_LEN_I, "record: %u, pid: %d, address: %lu, bit0: %d, bit1: %d, bit2: %d, bit3: %d, bit4: %d\n", record, pid_, address_, bit0, bit1, bit2, bit3, bit4);
 	strncat(buffer, buffer_i, BUF_LEN_I);

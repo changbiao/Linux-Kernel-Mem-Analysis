@@ -375,6 +375,67 @@ deps_/home/amh339/os/Linux-Kernel-Mem-Analysis/kmodule/module.o := \
   include/linux/aio.h \
   include/linux/aio_abi.h \
   include/linux/uio.h \
+  include/linux/pagemap.h \
+  include/linux/mm.h \
+    $(wildcard include/config/sysctl.h) \
+    $(wildcard include/config/stack/growsup.h) \
+    $(wildcard include/config/debug/vm.h) \
+    $(wildcard include/config/shmem.h) \
+    $(wildcard include/config/ia64.h) \
+    $(wildcard include/config/debug/pagealloc.h) \
+  include/linux/debug_locks.h \
+    $(wildcard include/config/debug/locking/api/selftests.h) \
+  include/linux/backing-dev.h \
+  include/linux/mm_types.h \
+  include/asm/pgtable.h \
+  include/asm/pgtable-2level-defs.h \
+  include/asm/pgtable-2level.h \
+  include/asm-generic/pgtable.h \
+  include/linux/page-flags.h \
+    $(wildcard include/config/s390.h) \
+    $(wildcard include/config/swap.h) \
+  include/linux/vmstat.h \
+    $(wildcard include/config/vm/event/counters.h) \
+  include/linux/highmem.h \
+  include/linux/uaccess.h \
+  include/asm/uaccess.h \
+    $(wildcard include/config/x86/intel/usercopy.h) \
+    $(wildcard include/config/x86/wp/works/ok.h) \
+  include/asm/cacheflush.h \
+    $(wildcard include/config/debug/rodata.h) \
+  include/asm/highmem.h \
+  include/linux/interrupt.h \
+    $(wildcard include/config/generic/irq/probe.h) \
+  include/linux/irqreturn.h \
+  include/linux/hardirq.h \
+    $(wildcard include/config/preempt/bkl.h) \
+    $(wildcard include/config/virt/cpu/accounting.h) \
+  include/linux/smp_lock.h \
+    $(wildcard include/config/lock/kernel.h) \
+  include/asm/hardirq.h \
+  include/linux/irq.h \
+    $(wildcard include/config/irq/per/cpu.h) \
+    $(wildcard include/config/irq/release/method.h) \
+    $(wildcard include/config/generic/pending/irq.h) \
+    $(wildcard include/config/irqbalance.h) \
+    $(wildcard include/config/auto/irq/affinity.h) \
+    $(wildcard include/config/generic/hardirqs/no//do/irq.h) \
+  include/asm/irq.h \
+  include/asm-i386/mach-default/irq_vectors.h \
+  include/asm-i386/mach-default/irq_vectors_limits.h \
+  include/asm/irq_regs.h \
+  include/asm/hw_irq.h \
+  include/linux/profile.h \
+  include/asm/sections.h \
+  include/asm-generic/sections.h \
+  include/linux/irq_cpustat.h \
+  include/linux/device.h \
+    $(wildcard include/config/debug/devres.h) \
+  include/linux/ioport.h \
+  include/linux/klist.h \
+  include/asm/device.h \
+  include/asm/tlbflush.h \
+    $(wildcard include/config/x86/invlpg.h) \
 
 /home/amh339/os/Linux-Kernel-Mem-Analysis/kmodule/module.o: $(deps_/home/amh339/os/Linux-Kernel-Mem-Analysis/kmodule/module.o)
 
