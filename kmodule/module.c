@@ -133,7 +133,7 @@ static int get_info(char *sys_buffer, char **my_buffer, off_t file_pos, int my_b
 //	unsigned long pmd = pmd_offset(&pud, address_);
 //	unsigned long pte = pte_offset_kernel(&pmd, address_);
 
-        this_len = snprintf(buffer_i, BUF_LEN_I, "record: %u, pid: %d, address: %lu, bit0: %d, bit1: %d, bit2: %d, bit3: %d, bit4: %d\n", record, pid_, address_, bit0, bit1, bit2, bit3, bit4);
+        this_len = snprintf(buffer_i, BUF_LEN_I, "record: %u, pid: %d, address: %lu, bit0: %d, bit1: %d, bit2: %d, bit3: %d, bit4: %d, pgd: %lu, pud: %lu, pmd: %lu\n", record, pid_, address_, bit0, bit1, bit2, bit3, bit4, (unsigned long)pgd, (unsigned long)pud, (unsigned long)pmd);
 	strncat(buffer, buffer_i, BUF_LEN_I);
 	len = len+this_len;
     }  
