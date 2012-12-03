@@ -2,6 +2,7 @@ import sys
 import re
 import signal
 import time
+import pickle
 
 
 full = {}
@@ -12,9 +13,8 @@ def display(SIG, FRM):
 
 def write_tmp(obj):
 	f = open("tmp", "w")
-	f.write(str(obj) + "\n")
+	pickle.dump(obj, f)
 	f.close()
-
 
 
 def read(filename):
