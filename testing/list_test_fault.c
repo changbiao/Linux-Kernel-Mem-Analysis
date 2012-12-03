@@ -4,7 +4,7 @@
 #define SIZE 4096
 #define MULTI 1024
 
-int list[SIZE*MULTI];
+int list[SIZE];
 
 int main()
 {
