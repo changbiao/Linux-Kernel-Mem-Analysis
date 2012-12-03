@@ -4,18 +4,17 @@ import signal
 import time
 import pickle
 
-
+#full is the full dictionary of data stored in mem
 full = {}
 
-def display(SIG, FRM):
+def dumpData(SIG, FRM):
 	global dict
-	write_tmp(full)
+	writeOutObj(full)
 
-def write_tmp(obj):
+def writeOutObj(obj):
 	f = open("tmp", "w")
 	pickle.dump(obj, f)
 	f.close()
-
 
 def read(filename):
 	ret = []
@@ -34,17 +33,13 @@ def parse(lines):
 			continue
 		full[key] = {}
 		for i in range(2, len(parts)):
-			if is_even(i):
+			if isEven(i):
 				key_i = clean(parts[i])
 				val_i = clean(parts[i+1])
-#				print key_i,
-#				print "=",
-#				print val_i
 				full[key][key_i] = val_i
 
-def is_even(num):
+def isEven(num):
 	return num % 2 == 0
-
 
 def clean(s):
 	s=re.sub(":", "", s)
@@ -53,7 +48,10 @@ def clean(s):
 
 
 if __name__ == "__main__":
-	signal.signal(signal.SIGHUP, display)
+	#assign the HUP signal handler to dump
+	signal.signal(signal.SIGHUP, dumpData)
+
+	#indefinitely read the proc module and store data
 	while True:
 		lines = read("/proc/mem_hurst")	
 		parse(lines)
