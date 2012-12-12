@@ -12,9 +12,6 @@ if __name__ == "__main__":
 	#load in the dumped dictionary object
 	full = readDataObj("tmp")
 	
-	print full
-
-	sys.exit(0)	#for now, miner handles search
 	
 	#pass in search key and value as command line args
 	search_key = sys.argv[1]
