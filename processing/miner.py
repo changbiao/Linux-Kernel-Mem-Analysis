@@ -3,6 +3,7 @@ import re
 import signal
 import time
 import pickle
+import os
 
 #full is the full dictionary of data stored in mem
 full = {}
@@ -31,7 +32,7 @@ def read(filename):
 	return ret
 
 
-def hasPidSpecified():
+def hasQuerySpecified():
 	#check if pid file exists
 	if os.path.exists(searchFile):
 		return True
@@ -39,10 +40,10 @@ def hasPidSpecified():
 
 def cleanObj(obj):
 	#open pid file
-	query = read(searchFile)
+	query = read(searchFile)[0]
 	parts = query.split(":")
-	key = parts[0]
-	val = parts[1]
+	search_key = parts[0]
+	search_val = parts[1]
 
 	#remove all objects that aren't related to pid
 	objTmp = {}
