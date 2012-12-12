@@ -9,6 +9,8 @@ int main()
 	if(pid == 0)
 	{
 		i++;	//child
+		printf("%d\n", i);
 	}
+	printf("%d\n", i);
 }
 

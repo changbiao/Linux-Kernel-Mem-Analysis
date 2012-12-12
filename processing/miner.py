@@ -7,12 +7,17 @@ import pickle
 #full is the full dictionary of data stored in mem
 full = {}
 
+#search query file
+searchFile = "search.dat"
+
 def dumpData(SIG, FRM):
 	global dict
 	writeOutObj(full)
 
 def writeOutObj(obj):
 	f = open("tmp", "w")
+	if hasQuerySpecified():
+		obj = cleanObj(obj)
 	pickle.dump(obj, f)
 	f.close()
 
@@ -24,6 +29,28 @@ def read(filename):
 		ret.append(line.strip())
 	f.close()
 	return ret
+
+
+def hasPidSpecified():
+	#check if pid file exists
+	if os.path.exists(searchFile):
+		return True
+	return False
+
+def cleanObj(obj):
+	#open pid file
+	query = read(searchFile)
+	parts = query.split(":")
+	key = parts[0]
+	val = parts[1]
+
+	#remove all objects that aren't related to pid
+	objTmp = {}
+	for key, val in obj.iteritems():
+		if re.search(search_val, val[search_key]):
+			objTmp[key] = val
+	#return the new obj
+	return objTmp
 
 def parse(lines):
 	for line in lines:
