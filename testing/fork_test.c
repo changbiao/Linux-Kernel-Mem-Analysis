@@ -10,7 +10,10 @@ int main()
 	{
 		i++;	//child
 		printf("%d\n", i);
+	}else{
+		i=i+2;
+		printf("%d\n", i);
 	}
-	printf("%d\n", i);
+	return 0;
 }
 
